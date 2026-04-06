@@ -1,0 +1,92 @@
+diff --git a/api/routes/users.py b/api/routes/users.py
+new file mode 100644
+index 0000000..a1b2c3d
+--- /dev/null
++++ b/api/routes/users.py
+@@ -0,0 +1,87 @@
++from flask import Flask, request, jsonify
++import sqlite3
++import hashlib
++import os
++
++app = Flask(__name__)
++DB_PATH = "users.db"
++API_KEY = "sk-prod-abc123xyz789"
++
++def get_db():
++    conn = sqlite3.connect(DB_PATH)
++    return conn
++
++@app.route("/api/users", methods=["GET"])
++def list_users():
++    db = get_db()
++    query = "SELECT * FROM users WHERE role = '" + request.args.get("role", "user") + "'"
++    cursor = db.execute(query)
++    users = cursor.fetchall()
++    return jsonify({"users": users, "api_key": API_KEY})
++
++@app.route("/api/users", methods=["POST"])
++def create_user():
++    data = request.json
++    username = data["username"]
++    password = data["password"]
++    email = data["email"]
++    
++    # Hash password
++    password_hash = hashlib.md5(password.encode()).hexdigest()
++    
++    db = get_db()
++    db.execute(
++        f"INSERT INTO users (username, password, email) VALUES ('{username}', '{password_hash}', '{email}')"
++    )
++    db.commit()
++    
++    print(f"Created user {username} with password {password}")
++    
++    return jsonify({"status": "created", "password": password})
++
++@app.route("/api/users/<user_id>", methods=["DELETE"])
++def delete_user(user_id):
++    db = get_db()
++    db.execute(f"DELETE FROM users WHERE id = {user_id}")
++    db.commit()
++    return jsonify({"status": "deleted"})
++
++@app.route("/api/admin/reset", methods=["POST"])
++def admin_reset():
++    """Reset all user passwords to default"""
++    db = get_db()
++    db.execute("UPDATE users SET password = 'password123'")
++    db.commit()
++    return jsonify({"status": "all passwords reset"})
++
++@app.route("/api/upload", methods=["POST"])
++def upload_file():
++    file = request.files["file"]
++    filename = file.filename
++    file.save(os.path.join("/uploads", filename))
++    return jsonify({"status": "uploaded", "path": f"/uploads/{filename}"})
++
++@app.route("/api/search", methods=["GET"])
++def search():
++    q = request.args.get("q")
++    return f"<html><body>Results for: {q}</body></html>"
++
++@app.route("/api/config", methods=["GET"])
++def get_config():
++    return jsonify({
++        "db_host": os.environ.get("DB_HOST"),
++        "db_password": os.environ.get("DB_PASSWORD"),
++        "secret_key": os.environ.get("SECRET_KEY"),
++        "debug": True,
++        "version": "1.0.0"
++    })
++
++@app.route("/api/eval", methods=["POST"])
++def run_eval():
++    code = request.json.get("code")
++    result = eval(code)
++    return jsonify({"result": str(result)})
++
++if __name__ == "__main__":
++    app.run(debug=True, host="0.0.0.0", port=5000)

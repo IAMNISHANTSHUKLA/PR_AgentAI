@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PR AgentAI — Multi-agent PR review system powered by Cerebras AI. Security, quality, and documentation analysis in real-time.">
+  <title>PR AgentAI — Multi-Agent Code Review</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Running multi-agent review pipeline...</div>
+    <div class="loading-agent" id="loadingAgent">🤖 Initializing agents...</div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="app-header">
+      <div class="app-logo">
+        <div class="logo-icon">🤖</div>
+        <div>
+          <h1>PR AgentAI</h1>
+          <div class="subtitle">LangGraph Multi-Agent Pipeline · Cerebras AI</div>
+        </div>
+      </div>
+      <div class="header-status">
+        <div class="status-badge" style="background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.3);">
+          <span style="font-size: 0.7rem; color: var(--brand-primary-light); font-weight: 600;">🔗 LangGraph</span>
+        </div>
+        <div class="status-badge">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="statusText">Connecting...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Input Section -->
+    <div class="main-grid">
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-header">
+          <div class="card-title">
+            <span>📝</span> PR Diff Input
+          </div>
+          <div class="flex gap-sm" style="align-items: center;">
+            <label style="font-size: 0.75rem; color: var(--text-muted);">PR ID:</label>
+            <input type="text" class="pr-id-input" id="prIdInput" value="PR-001" placeholder="PR-001">
+          </div>
+        </div>
+        <div class="card-body">
+          <textarea 
+            class="diff-input" 
+            id="diffInput" 
+            placeholder="Paste your Git diff here, or load a sample below...
+
+Example:
+diff --git a/src/app.py b/src/app.py
+--- a/src/app.py
++++ b/src/app.py
+@@ -1,5 +1,10 @@
++import os
++from flask import Flask, request
+..."
+          ></textarea>
+          
+          <div class="action-bar">
+            <div class="sample-buttons" id="sampleButtons">
+              <!-- Dynamically populated -->
+            </div>
+            <div class="flex gap-sm">
+              <button class="btn btn-ghost" onclick="clearResults()">Clear</button>
+              <button class="btn btn-primary" id="reviewBtn" onclick="submitReview()">
+                🚀 Run Review
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="results-panel" id="resultsPanel">
+
+      <!-- LangGraph Pipeline Visualization -->
+      <div class="card mb-lg" id="graphCard" style="animation: slide-up 0.3s ease-out;">
+        <div class="card-header">
+          <div class="card-title"><span>🔗</span> LangGraph Pipeline</div>
+          <button class="btn btn-ghost" onclick="toggleGraph()" id="graphToggle">Hide</button>
+        </div>
+        <div class="card-body" id="graphBody">
+          <div id="mermaidGraph" class="mermaid" style="text-align: center;"></div>
+        </div>
+      </div>
+      
+      <!-- Verdict Banner -->
+      <div id="verdictBanner" class="verdict-banner"></div>
+
+      <!-- Score Section -->
+      <div class="score-ring-container" id="scoreSection"></div>
+
+      <!-- Findings -->
+      <div class="findings-section">
+        <div class="findings-header">
+          <div class="findings-title">
+            <span>🔍</span> Findings
+            <span class="findings-count" id="findingsCount">0</span>
+          </div>
+          <div class="severity-filter" id="severityFilters"></div>
+        </div>
+        <div id="findingsList"></div>
+      </div>
+
+      <!-- Timing Stats -->
+      <div class="timing-stats" id="timingStats"></div>
+    </div>
+
+  </div>
+
+  <script>
+    mermaid.initialize({ 
+      startOnLoad: false, 
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        primaryColor: '#6366f1',
+        primaryTextColor: '#f0f0f5',
+        primaryBorderColor: '#6366f1',
+        lineColor: '#4b5563',
+        background: '#12121a',
+        mainBkg: '#1a1a26',
+        nodeBorder: '#6366f1',
+        fontSize: '14px'
+      }
+    });
+  </script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
