@@ -1,4 +1,4 @@
-# 🤖 PR AgentAI
+#  PR AgentAI
 
 **Multi-Agent Pull Request Review System** — powered by **LangGraph** orchestration and **Cerebras AI** inference.
 
@@ -6,7 +6,7 @@ An intelligent code review pipeline that runs three specialized AI agents (Secur
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
                     ┌─────────────────────────────────────┐
@@ -65,7 +65,7 @@ The `operator.add` reducer on `agent_results` is the key — it allows all three
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -105,12 +105,12 @@ This loads your coding standards and documentation into ChromaDB so agents can g
 
 **Expected output:**
 ```
-✅ Seeded 2 coding standards documents
-✅ Seeded 1 Confluence documents
-📊 Collections: ['coding_standards', 'confluence_docs']
+ Seeded 2 coding standards documents
+ Seeded 1 Confluence documents
+ Collections: ['coding_standards', 'confluence_docs']
    coding_standards: 2 chunks
    confluence_docs: 1 chunks
-🎉 Vector store seeded successfully!
+ Vector store seeded successfully!
 ```
 
 ### 4. Run the Dashboard
@@ -139,7 +139,7 @@ python main.py --diff data/sample_prs/vulnerable_api.diff --log-level DEBUG
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 PR_AgentAI/
@@ -159,7 +159,7 @@ PR_AgentAI/
 │   ├── security.py                   # Security vulnerability scanner
 │   ├── quality.py                    # Code quality & style reviewer
 │   ├── docs.py                       # Documentation completeness checker
-│   └── orchestrator.py               # ⭐ LangGraph StateGraph orchestrator
+│   └── orchestrator.py               #  LangGraph StateGraph orchestrator
 │
 ├── data/                             # Knowledge base & test data
 │   ├── coding_standards/
@@ -286,7 +286,7 @@ Features:
 
 ---
 
-## 🌐 API Reference
+##  API Reference
 
 | Method | Endpoint | Description |
 |---|---|---|
@@ -331,16 +331,16 @@ curl -X POST http://localhost:8000/api/review \
 
 ---
 
-## 🎨 Web Dashboard
+##  Web Dashboard
 
 The dashboard features:
-- **🔗 LangGraph Pipeline Visualization** — interactive Mermaid diagram of the agent graph
-- **📊 Score Ring** — animated SVG ring showing overall score with color coding
-- **📈 Agent Score Bars** — per-agent score breakdown
-- **🔍 Findings Panel** — filterable by severity (critical/high/medium/low/info)
-- **⏱️ Timing Stats** — per-agent and total execution time
-- **🎯 Verdict Banner** — approve (green) / comment (yellow) / reject (red)
-- **📄 Sample Loader** — preloaded sample diffs for demo
+- ** LangGraph Pipeline Visualization** — interactive Mermaid diagram of the agent graph
+- ** Score Ring** — animated SVG ring showing overall score with color coding
+- ** Agent Score Bars** — per-agent score breakdown
+- ** Findings Panel** — filterable by severity (critical/high/medium/low/info)
+- ** Timing Stats** — per-agent and total execution time
+- ** Verdict Banner** — approve (green) / comment (yellow) / reject (red)
+- ** Sample Loader** — preloaded sample diffs for demo
 
 **Design:**
 - Dark mode with glassmorphism effects
@@ -350,7 +350,7 @@ The dashboard features:
 
 ---
 
-## 📋 Adding Custom Standards
+##  Adding Custom Standards
 
 Drop Markdown files into the appropriate directory, then re-seed:
 
@@ -369,7 +369,7 @@ Agents will automatically use these standards as RAG context during reviews.
 
 ---
 
-## 🚢 Deployment
+##  Deployment
 
 ### Production with Uvicorn
 
@@ -412,7 +412,7 @@ docker run -p 8000:8000 --env-file .env pr-agentai
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 ### Run a review on the intentionally-vulnerable sample:
 
@@ -438,7 +438,7 @@ curl http://localhost:8000/api/health
 
 ---
 
-## 🔑 Key Design Decisions
+##  Key Design Decisions
 
 | Decision | Rationale |
 |---|---|
@@ -451,7 +451,7 @@ curl http://localhost:8000/api/health
 
 ---
 
-## 📦 Dependencies
+##  Dependencies
 
 | Package | Purpose |
 |---|---|
@@ -468,7 +468,7 @@ curl http://localhost:8000/api/health
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — see [LICENSE](LICENSE) for details.
 
